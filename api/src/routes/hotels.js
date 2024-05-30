@@ -1,14 +1,16 @@
 import express from 'express';
 import { createError } from '../utils/error.js';
-import { allHotel, createHotel, deleteHotel, getHotel, updateHotel } from '../controllers/hotel.js';
+import { allHotel, createHotel, getHotel, deleteHotel, updateHotel, countByCity, countByType, getHotelRooms } from '../controllers/hotel.js';
+import { verifyAdmin } from '../utils/verifyToken.js';
+
 const router = express.Router();
 
 // CREATE
-router.post("/", createHotel)
+router.post("/", verifyAdmin, createHotel)
 
 
 // UPDATE
-router.put("/:id", updateHotel)
+router.put("/:id", verifyAdmin, updateHotel)
 
 // DELETE
 // router.delete("/:id", async (req, res) => {
@@ -24,13 +26,18 @@ router.put("/:id", updateHotel)
 
 
 // Delete 
-router.delete("/:id", deleteHotel)
+router.delete("/:id", verifyAdmin, deleteHotel)
 
 
 // GET
-router.get("/:id", getHotel)
+router.get("/find/:id", getHotel)
 
 // GET ALL HOTEL
 router.get("/", allHotel)
+
+
+router.get("/countByCity", countByCity)
+router.get("/countByType", countByType)
+router.get("/room/:id", getHotelRooms)
 
 export default router;

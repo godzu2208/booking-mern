@@ -5,6 +5,8 @@ import authRoute from "./src/routes/auth.js"
 import usersRoute from "./src/routes/users.js"
 import hotelsRoute from "./src/routes/hotels.js"
 import roomsRoute from "./src/routes/rooms.js"
+import cookieParser from 'cookie-parser';
+import cors from "cors"
 
 const app = express();
 dotenv.config()
@@ -30,10 +32,12 @@ app.get('/user', (req, res) => {
     res.send("avc user")
 })
 
-
+// middleware
+app.use(cors())
+app.use(cookieParser())
 app.use(express.json())
 
-// middleware
+
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/hotels", hotelsRoute);
